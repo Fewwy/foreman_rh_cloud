@@ -10,12 +10,16 @@ import {
 
 const ForemanInventoryUpload = () => {
   const { config, setConfig } = useContext(ScalprumContext);
+  // for https://quay.io/repository/cloudservices/vulnerability-ui?tab=tags
+  const path = 'apps/vulnerability'; // apps/landing
+  const scope = 'vulnerability'; // landing
+  const module = './SatelliteDemoComponent'; // ./AnsibleWidget
   useEffect(() => {
     setConfig({
-      landing: {
-        name: 'landing',
-        manifestLocation: `${window.location.origin}/scalprum/apps/landing/fed-mods.json`,
-        cdnPath: `${window.location.origin}/scalprum/apps/landing/`,
+      [scope]: {
+        name: scope,
+        manifestLocation: `${window.location.origin}/scalprum/${path}/fed-mods.json`,
+        cdnPath: `${window.location.origin}/scalprum/${path}/`,
       },
     });
   }, [setConfig]);
@@ -23,9 +27,7 @@ const ForemanInventoryUpload = () => {
   return (
     <div className="rh-cloud-inventory-page">
       <PageLayout searchable={false} beforeToolbarComponent={<PageHeader />}>
-        {config.landing && (
-          <ScalprumComponent scope="landing" module="./AnsibleWidget" />
-        )}
+        {config[scope] && <ScalprumComponent scope={scope} module={module} />}
         <AccountList />
       </PageLayout>
     </div>
