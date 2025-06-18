@@ -18,8 +18,8 @@ const ForemanInventoryUpload = () => {
     setConfig({
       [scope]: {
         name: scope,
-        manifestLocation: `${window.location.origin}/scalprum/${path}/fed-mods.json`,
-        cdnPath: `${window.location.origin}/scalprum/${path}/`,
+        manifestLocation: `https://ip-10-0-167-238.rhos-01.prod.psi.rdu2.redhat.com:1337/${path}/fed-mods.json`,
+        cdnPath: `https://ip-10-0-167-238.rhos-01.prod.psi.rdu2.redhat.com:1337/${path}/`,
       },
     });
   }, [setConfig]);

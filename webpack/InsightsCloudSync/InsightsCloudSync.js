@@ -70,7 +70,7 @@ const LocalAdvisorPlaceholder = props => {
     setConfig({
       [scope]: {
         name: scope,
-        manifestLocation: `${window.location.origin}/scalprum/${path}/fed-mods.json`,
+        manifestLocation: `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`,
         cdnPath: `${window.location.origin}/scalprum/${path}/`,
       },
     });
