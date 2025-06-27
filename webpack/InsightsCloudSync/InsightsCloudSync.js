@@ -63,13 +63,11 @@ InsightsCloudSync.defaultProps = {
 
 const LocalAdvisorPlaceholder = props => {
   const { config, setConfig } = useContext(ScalprumContext);
-  const path = 'apps/advisor';
-  const scope = 'advisor';
+  const [scope, setScope] = useState('advisor');
+  const path = `apps/${scope}`;
   const module = './SatelliteDemoComponent';
+  const manifestLocation = `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`;
 
-  const [manifestLocation, setManifestLocation] = useState(
-    `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`
-  );
   const [value, setValue] = useState(manifestLocation);
 
   useEffect(() => {
@@ -80,20 +78,22 @@ const LocalAdvisorPlaceholder = props => {
         cdnPath: `${window.location.origin}/scalprum/${path}/`,
       },
     });
-  }, [setConfig, manifestLocation]);
+  }, [setConfig, scope, path, manifestLocation]);
 
   return (
     <>
-      <TextInput
-        value={value}
-        type="text"
-        onChange={(_event, val) => setValue(val)}
-        aria-label="manifest location"
-      />
-      <Button variant="primary" onClick={() => setManifestLocation(value)}>
-        Set manifest location
-      </Button>
-      ;
+      <span>
+        <TextInput
+          value={scope}
+          type="text"
+          onChange={(_event, val) => setScope(val)}
+          aria-label="manifest location"
+        />
+        <Button variant="primary" onClick={() => setScope(scope)}>
+          Set scope
+        </Button>
+      </span>
+      <pre>{manifestLocation}</pre>;
       {config[scope] && (
         <ScalprumComponent scope={scope} module={module} {...props} />
       )}
