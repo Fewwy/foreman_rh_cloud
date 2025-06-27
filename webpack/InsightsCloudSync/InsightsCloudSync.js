@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PageLayout from 'foremanReact/routes/common/PageLayout/PageLayout';
+import { TextInput, Button } from '@patternfly/react-core';
 import { ScalprumComponent } from '@scalprum/react-core';
 import {
   ScalprumContextWrapper,
@@ -66,20 +67,37 @@ const LocalAdvisorPlaceholder = props => {
   const scope = 'advisor';
   const module = './SatelliteDemoComponent';
 
+  const [manifestLocation, setManifestLocation] = useState(
+    `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`
+  );
+  const [value, setValue] = useState(manifestLocation);
+
   useEffect(() => {
     setConfig({
       [scope]: {
         name: scope,
-        manifestLocation: `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`,
+        manifestLocation,
         cdnPath: `${window.location.origin}/scalprum/${path}/`,
       },
     });
-  }, [setConfig]);
+  }, [setConfig, manifestLocation]);
 
   return (
-    config[scope] && (
-      <ScalprumComponent scope={scope} module={module} {...props} />
-    )
+    <>
+      <TextInput
+        value={value}
+        type="text"
+        onChange={(_event, val) => setValue(val)}
+        aria-label="manifest location"
+      />
+      <Button variant="primary" onClick={() => setManifestLocation(value)}>
+        Set manifest location
+      </Button>
+      ;
+      {config[scope] && (
+        <ScalprumComponent scope={scope} module={module} {...props} />
+      )}
+    </>
   );
 };
 
