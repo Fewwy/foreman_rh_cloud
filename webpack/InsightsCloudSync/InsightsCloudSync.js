@@ -65,17 +65,17 @@ const LocalAdvisorPlaceholder = props => {
   const { config, setConfig } = useContext(ScalprumContext);
   const [scope, setScope] = useState('advisor');
   const path = `apps/${scope}`;
-  const module = './SatelliteDemoComponent';
-  const manifestLocation = `https://stage.foo.redhat.com:1337/${path}/fed-mods.json`;
+  const module = './RulesTableWrapped';
+  const manifestLocation = `/${path}/fed-mods.json`;
 
-  const [value, setValue] = useState(manifestLocation);
+  const [value, setValue] = useState(scope);
 
   useEffect(() => {
     setConfig({
       [scope]: {
         name: scope,
         manifestLocation,
-        cdnPath: `${window.location.origin}/scalprum/${path}/`,
+        cdnPath: `/${path}/`,
       },
     });
   }, [setConfig, scope, path, manifestLocation]);
@@ -84,16 +84,16 @@ const LocalAdvisorPlaceholder = props => {
     <>
       <span>
         <TextInput
-          value={scope}
+          value={value}
           type="text"
-          onChange={(_event, val) => setScope(val)}
+          onChange={(_event, val) => setValue(val)}
           aria-label="manifest location"
         />
-        <Button variant="primary" onClick={() => setScope(scope)}>
+        <Button variant="primary" onClick={() => setScope(value)}>
           Set scope
         </Button>
       </span>
-      <pre>{manifestLocation}</pre>;
+      <pre style={{ paddingBottom: '2em' }}>{manifestLocation}</pre>
       {config[scope] && (
         <ScalprumComponent scope={scope} module={module} {...props} />
       )}
